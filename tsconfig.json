@@ -4,7 +4,6 @@
     "module": "ESNext",
     "target": "ESNext",
     "lib": ["ES2020"],
-    "outDir": "temp",
     "sourceMap": false,
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
@@ -12,7 +11,6 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
     "types": ["node", "vitest/globals"],
     "paths": {
       "@/*": ["./src/*"],
