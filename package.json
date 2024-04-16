@@ -17,12 +17,11 @@
   "scripts": {
     "postinstall": "simple-git-hooks",
     "dev": "tsx src/index.ts",
-    "start": "node dist/index.mjs",
     "build": "rimraf dist && rollup -c && pnpm build:dts",
     "build:dts": "rimraf temp && tsc -p tsconfig.build.json && rollup -c rollup.dts.config.js",
     "clean": "rimraf dist temp .eslintcache .stats",
     "test": "vitest",
-    "pub": "pnpm build && npm publish",
+    "pub": "pnpm build && pnpm publish --no-git-checks",
     "check": "tsc --incremental --noEmit",
     "lint": "eslint --cache --ignore-path .gitignore .",
     "lint:fix": "eslint --cache --fix --ignore-path .gitignore .",
@@ -91,7 +90,7 @@
     "rollup-plugin-esbuild": "^6.1.1",
     "rollup-plugin-visualizer": "^5.12.0",
     "simple-git-hooks": "^2.9.0",
-    "tsx": "^4.7.0",
+    "tsx": "^4.7.2",
     "typescript": "^5.3.3",
     "vitest": "^1.5.0"
   },
