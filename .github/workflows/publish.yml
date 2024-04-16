@@ -1,15 +1,15 @@
-name: npm publish
+name: publish
 
 on:
   push:
     tags:
       - 'v*'
 
+permissions:
+  contents: write # Allows this job to create releases
+
 jobs:
   npm_publish:
-    permissions:
-      contents: write # Allows this job to create releases
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -32,16 +32,22 @@ jobs:
           pnpm install
           pnpm build
 
-      - name: Publish to npmjs.com
-        run: npm publish
+      - name: Publish package
+        run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # - name: Get package version
-      #   run: echo "version=v$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+  github_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # - name: Release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     draft: true
-      #     tag_name: ${{ env.version }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - run: npx changelogithub --draft
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
